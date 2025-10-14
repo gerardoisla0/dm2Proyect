@@ -5,6 +5,7 @@ import { BoxObjectModel } from "./screens/BoxObjectModel";
 import { PositionScreen } from "./screens/PositionScreen";
 import { FlexScreen } from "./screens/FlexScreen";
 import { HomeworkScreen } from "./screens/HomeworkScreen";
+import { CalculatorScreen } from "./screens/CalculatorScreen";
 
 export const App = () => {
   return (
@@ -12,8 +13,9 @@ export const App = () => {
       {/*<PokemonScreen />
       <BoxObjectModel />
       <PositionScreen />
-      <FlexScreen />*/}
-      <HomeworkScreen />
+      <FlexScreen />
+      <HomeworkScreen />*/}
+      <CalculatorScreen />
     </SafeAreaProvider>
   );
 }
