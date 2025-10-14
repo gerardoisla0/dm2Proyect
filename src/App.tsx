@@ -10,12 +10,12 @@ import { CalculatorScreen } from "./screens/CalculatorScreen";
 export const App = () => {
   return (
     <SafeAreaProvider>
-      {/*<PokemonScreen />
-      <BoxObjectModel />
+      <PokemonScreen />
+      {/*<BoxObjectModel />
       <PositionScreen />
       <FlexScreen />
-      <HomeworkScreen />*/}
-      <CalculatorScreen />
+      <HomeworkScreen />
+      <CalculatorScreen />*/}
     </SafeAreaProvider>
   );
 }

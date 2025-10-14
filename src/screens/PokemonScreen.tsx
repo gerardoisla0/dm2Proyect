@@ -1,7 +1,10 @@
-import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import axios from 'axios';
+import React, { useState } from 'react'
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 
 export const PokemonScreen = () => {
+
+    const [respuesta, setRespuesta] = useState('');
 
    //LOGICA (CODIGO FUNCIONES)
   const pokemons = [
@@ -10,6 +13,40 @@ export const PokemonScreen = () => {
     { id: 3, name: 'Venusaur', imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png' },
   ]
 
+  const processIa = async (pokemonName: string) => {
+    try {
+
+       const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', 
+            {
+                model: 'meta-llama/llama-3.2-3b-instruct:free',
+                messages: [
+                    {
+                    role: 'user',
+                    content: 'Dame la linea evolutiva del pokemon ' + pokemonName + ' en menos de 50 palabras'
+                    }
+                ],
+                max_tokens: 200,
+                temperature: 0.7
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer sk-or-v1-xxxxx`,
+                    'Content-Type': 'application/json',
+                    'X-Title': 'Horóscopo Diario'
+                }
+            }
+       );
+
+       const descriptionText = response.data.choices[0].message.content;
+       setRespuesta(descriptionText);
+       console.log('Respuesta de la IA:', descriptionText);
+
+    }
+    catch (error) {
+        console.error('Error al procesar la IA:', error);
+    }
+  }
+
   // RETORNO INTERFAZ
   return (
     <View style={myStyles.container}>
@@ -17,18 +54,22 @@ export const PokemonScreen = () => {
         {
             pokemons.map( pokemon => (
                 <View key={pokemon.id} style={myStyles.subContainer}>
-                    <Text key={pokemon.id} style={myStyles.pokemonName}>
-                        {pokemon.name}
-                    </Text>
-                    <Image 
-                        source={{
-                            uri: pokemon.imageUrl
-                        }}
-                        style={myStyles.pokemonImage}
-                    />
+                    <Pressable onPress={ () => processIa(pokemon.name) }>
+                        <Text key={pokemon.id} style={myStyles.pokemonName}>
+                            {pokemon.name}
+                        </Text>
+                        <Image 
+                            source={{
+                                uri: pokemon.imageUrl
+                            }}
+                            style={myStyles.pokemonImage}
+                        />
+                    </Pressable>
                 </View>
             ))
         }
+
+        <Text style={[myStyles.pokemonName, {marginTop:20, paddingHorizontal: 30}]}>Respuesta: {respuesta}</Text>
     </View>
   )
 }
