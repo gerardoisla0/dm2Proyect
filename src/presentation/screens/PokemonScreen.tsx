@@ -1,17 +1,27 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { GetPokemonListUseCase } from '../../domain/useCases/getList.usecase';
+import { Pokemon } from '../../domain/entities/pokemon';
 
 export const PokemonScreen = () => {
 
     const [respuesta, setRespuesta] = useState('');
+    const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 
-   //LOGICA (CODIGO FUNCIONES)
+   /*LOGICA (CODIGO FUNCIONES)
   const pokemons = [
     { id: 1, name: 'Bulbasaur', imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png' },
     { id: 2, name: 'Ivysaur', imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png' },
     { id: 3, name: 'Venusaur', imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png' },
-  ]
+  ]*/
+
+    useEffect(() => {
+        (async () => {
+            const data = await GetPokemonListUseCase();
+            setPokemons(data);
+        })
+    },[])
 
   const processIa = async (pokemonName: string) => {
     try {
@@ -60,7 +70,7 @@ export const PokemonScreen = () => {
                         </Text>
                         <Image 
                             source={{
-                                uri: pokemon.imageUrl
+                                uri: pokemon.avatar
                             }}
                             style={myStyles.pokemonImage}
                         />

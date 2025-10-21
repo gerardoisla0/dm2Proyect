@@ -1,7 +1,7 @@
 import { Button, Pressable, Text, View } from 'react-native'
-import { colors, styles } from '../config/theme/theme';
 import { CalculatorButton } from '../components/CalculatorButton';
 import { useRef, useState } from 'react';
+import { styles, colors } from '../config/theme/theme';
 
 enum Operator {
     add = '+',
