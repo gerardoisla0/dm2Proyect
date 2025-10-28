@@ -8,6 +8,7 @@ import { HomeworkScreen } from "./presentation/screens/HomeworkScreen";
 import { CalculatorScreen } from "./presentation/screens/CalculatorScreen";
 import { StackNavigation } from "./presentation/routes/StackNavigation";
 import { NavigationContainer } from "@react-navigation/native";
+import { PaperProvider } from "react-native-paper";
 
 export const App = () => {
   return (
@@ -18,9 +19,11 @@ export const App = () => {
       <FlexScreen />
       <HomeworkScreen />
       <CalculatorScreen />*/}
-      <NavigationContainer>
-       <StackNavigation />
-      </NavigationContainer>
+       <PaperProvider>
+        <NavigationContainer>
+        <StackNavigation />
+        </NavigationContainer>
+       </PaperProvider>
     </SafeAreaProvider>
   );
 }
