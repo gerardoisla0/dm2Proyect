@@ -20,7 +20,7 @@ export class PokemonRepositoryImpl implements PokemonRepository{
             PokemonMapper.pokeApitoPokemonEntity(item)
         )
         console.log(pokemonEntities);
-        return pokemonEntities;
+        return await Promise.all(pokemonEntities);
     }
  
 }

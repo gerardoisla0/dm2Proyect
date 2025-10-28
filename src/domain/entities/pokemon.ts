@@ -6,4 +6,5 @@ export interface Pokemon{
     sprites: string[]; // fotos 
 
     //TODO caracteristicas adicional
+    color: string;
 }

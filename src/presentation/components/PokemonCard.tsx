@@ -11,7 +11,7 @@ export const PokemonCard = ({ pokemon }: Props) => {
   return (
     <Pressable onPress={ () => console.log(pokemon.name) }
         style={{flex:1}}>
-       <Card style={styles.cardContainer}>
+       <Card style={[styles.cardContainer, {backgroundColor: pokemon.color}]}>
             <Text style={styles.name} variant="bodyLarge" lineBreakMode='middle'>
                 {pokemon.name}
                 {'\n#' + pokemon.id}

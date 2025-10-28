@@ -25,12 +25,12 @@ export const PokemonScreen = () => {
 
     useEffect(() => {
         loadPokemons(page);
-    }, [page]);
+    }, []);
 
     const fetchNextPage = () => {
         const nextPage = page + 1;
         setPage(nextPage);
-        console.log('Cargando página:', nextPage);
+        loadPokemons(nextPage);
     }
 
   const processIa = async (pokemonName: string) => {
@@ -90,7 +90,7 @@ export const PokemonScreen = () => {
         <Text style={[myStyles.pokemonName, {marginTop:20, paddingHorizontal: 30}]}>Respuesta: {respuesta}</Text>*/}
         <FlatList
          data = {pokemons}
-            keyExtractor = { (item) => item.id.toString() }
+            keyExtractor = { (pokemon, index) => `${pokemon.id}-${index}`}
             numColumns={2}
             ListHeaderComponent={() => <Text style={myStyles.title}>Lista de Pokemones</Text>}
             renderItem={({item: pokemon}) => (
