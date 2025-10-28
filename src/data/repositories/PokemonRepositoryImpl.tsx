@@ -5,13 +5,13 @@ import { pokeApi } from "../source/remote/api/pokeApi";
 import { PokemonResult } from "../source/remote/interface/pokeApi.inteface";
 
 export class PokemonRepositoryImpl implements PokemonRepository{
-      async getPokemons (): Promise<Pokemon[]> {
+      async getPokemons(page: number, limit: number = 20): Promise<Pokemon[]> {
         console.log('Cargando pokemons...');
-        const {data} = await pokeApi.get<PokemonResult>('https://pokeapi.co/api/v2/pokemon',   
+        const {data} = await pokeApi.get<PokemonResult>('/pokemon',   
             {
                 params: {
-                    offset: (1 - 1) * 10,
-                    limit: 10
+                    offset: (page - 1) * limit,
+                    limit: limit
                 }
             }
         );

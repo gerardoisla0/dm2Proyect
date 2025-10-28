@@ -1,13 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { GetPokemonListUseCase } from '../../domain/useCases/getList.usecase';
 import { Pokemon } from '../../domain/entities/pokemon';
+import { PokemonCard } from '../components/PokemonCard';
 
 export const PokemonScreen = () => {
 
     const [respuesta, setRespuesta] = useState('');
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+    const [page, setPage] = useState(1);
 
    /*LOGICA (CODIGO FUNCIONES)
   const pokemons = [
@@ -16,12 +18,20 @@ export const PokemonScreen = () => {
     { id: 3, name: 'Venusaur', imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png' },
   ]*/
 
+    const loadPokemons = async (page: number) => {
+        const data = await GetPokemonListUseCase(page, 20);
+        setPokemons((prevPokemons) => [...prevPokemons, ...data]);
+    }
+
     useEffect(() => {
-        (async () => {
-            const data = await GetPokemonListUseCase();
-            setPokemons(data);
-        })
-    },[])
+        loadPokemons(page);
+    }, [page]);
+
+    const fetchNextPage = () => {
+        const nextPage = page + 1;
+        setPage(nextPage);
+        console.log('Cargando página:', nextPage);
+    }
 
   const processIa = async (pokemonName: string) => {
     try {
@@ -60,11 +70,11 @@ export const PokemonScreen = () => {
   // RETORNO INTERFAZ
   return (
     <View style={myStyles.container}>
-        <Text style={myStyles.title}>Lista de Pokemones</Text>
-        {
+        {/*<Text style={myStyles.title}>Lista de Pokemones</Text>
+        
             pokemons.map( pokemon => (
                 <View key={pokemon.id} style={myStyles.subContainer}>
-                    <Pressable onPress={ () => processIa(pokemon.name) }>
+                    <Pressable onPress={ () => console.log(pokemon.name) }>
                         <Text key={pokemon.id} style={myStyles.pokemonName}>
                             {pokemon.name}
                         </Text>
@@ -77,9 +87,18 @@ export const PokemonScreen = () => {
                     </Pressable>
                 </View>
             ))
-        }
-
-        <Text style={[myStyles.pokemonName, {marginTop:20, paddingHorizontal: 30}]}>Respuesta: {respuesta}</Text>
+        <Text style={[myStyles.pokemonName, {marginTop:20, paddingHorizontal: 30}]}>Respuesta: {respuesta}</Text>*/}
+        <FlatList
+         data = {pokemons}
+            keyExtractor = { (item) => item.id.toString() }
+            numColumns={2}
+            ListHeaderComponent={() => <Text style={myStyles.title}>Lista de Pokemones</Text>}
+            renderItem={({item: pokemon}) => (
+                <PokemonCard pokemon={pokemon} />
+            )}
+            onStartReachedThreshold={0.6}
+            onEndReached={() => fetchNextPage()}
+        />
     </View>
   )
 }
