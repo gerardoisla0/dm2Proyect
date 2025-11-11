@@ -5,7 +5,7 @@ export const colors = {
     lightGray: '#5C5C5E',
     orange: '#FF9F0A',
       
-    textPrimary: 'white',
+    textPrimary: '#000000',
     textSecondary: '#666666',
     background: '#000000',
 }

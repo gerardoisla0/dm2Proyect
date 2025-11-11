@@ -5,6 +5,7 @@ import { CalculatorScreen } from "../screens/CalculatorScreen";
 import { TabsNavigator } from "./TabsNavigator";
 import { BottomTabsNavigator } from "./BottomTabsNavigator";
 import { DrawerNavigation } from "./DrawerNavigation";
+import { LoginScreen } from "../screens/auth/LoginScreen";
 
 export type RouteStack = {
   Home: undefined,
@@ -13,6 +14,7 @@ export type RouteStack = {
   Tabs: undefined,
   BottomTabs: undefined,
   Drawer: undefined,
+  Login: undefined,
 }
 
 const Stack = createStackNavigator<RouteStack>();
@@ -30,6 +32,7 @@ export const StackNavigation = () => {
                 headerTitleStyle: { fontWeight: 'bold'}
             }}
         >
+            <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Pokemons" component={PokemonScreen} />
             <Stack.Screen name="Calculator" component={CalculatorScreen} />
