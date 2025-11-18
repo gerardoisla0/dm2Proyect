@@ -9,6 +9,7 @@ import { CalculatorScreen } from "./presentation/screens/CalculatorScreen";
 import { StackNavigation } from "./presentation/routes/StackNavigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
+import { AuthProvider } from "./presentation/context/AuthProvider";
 
 export const App = () => {
   return (
@@ -21,7 +22,9 @@ export const App = () => {
       <CalculatorScreen />*/}
        <PaperProvider>
         <NavigationContainer>
-        <StackNavigation />
+          <AuthProvider>
+            <StackNavigation />
+          </AuthProvider>
         </NavigationContainer>
        </PaperProvider>
     </SafeAreaProvider>

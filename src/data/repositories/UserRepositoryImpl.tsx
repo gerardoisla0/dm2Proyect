@@ -1,12 +1,13 @@
 import { User } from "../../domain/entities/user";
 import { UserRepository } from "../../domain/repositories/users.repository";
+import { UserMapper } from "../mappers/user.mapper";
 import { backendApi } from "../source/remote/api/backendApi";
 import { LoginResponse } from "../source/remote/interface/backendApi.interface";
 
 
 export class UserRepositoryImpl implements UserRepository{
 
-    async login(email: string, password: string): Promise<User[]> {
+    async login(email: string, password: string): Promise<User> {
         console.log('logueando usuarios...');
             const {data} = await backendApi.post<LoginResponse>('/auth/login',   
                {
@@ -14,10 +15,9 @@ export class UserRepositoryImpl implements UserRepository{
                     "password" : password
                 }
             );
-            console.log(data);
-            return [];
+            return UserMapper.userApiToUserEntity(data);
     }
-    create(email: string, password: string): Promise<User[]> {
+    create(email: string, password: string): Promise<User> {
         throw new Error("Method not implemented.");
     }
     

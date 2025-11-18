@@ -1,10 +1,20 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { RouteStack } from "../routes/StackNavigation";
+import { useAuth } from "../hooks/useAuth";
 
 export const HomeScreen = () => {
 
     const navigation = useNavigation<NavigationProp<RouteStack>>();
+    const {status, logout} = useAuth();
+
+    const logoutUser = () => {
+        logout();
+        navigation.reset({
+            index:0,
+            routes: [{ name: 'Login' }]
+        })
+    }
 
     return(
         <>
@@ -27,8 +37,14 @@ export const HomeScreen = () => {
                 style={style.button}
                 >
                     <Text style={style.textButton}>Bottom Tabs Navagitor</Text>
+               </Pressable>
+                <Text style={{color:'black'}}>Estado: {status}</Text>
+                <Pressable
+                onPress={() => logoutUser()} 
+                style={style.button}
+                >
+                    <Text style={style.textButton}>Salir</Text>
                 </Pressable>
-
             </View>
         </>
     );
