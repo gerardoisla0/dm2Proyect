@@ -3,3 +3,9 @@ export interface LoginResponse {
     fullName: string;
     id:       string;
 }
+
+export interface StatusUser {
+    email:    string;
+    fullName: string;
+    id:       string;
+}

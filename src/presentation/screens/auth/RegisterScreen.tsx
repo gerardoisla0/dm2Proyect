@@ -1,29 +1,29 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'  
-import { colors } from '../../config/theme/theme';
-import { Button, Dialog, Portal, TextInput } from 'react-native-paper';
-import { useState } from 'react';
-import { LoginUseCase } from '../../../domain/useCases/login.usecase';
-import { useAuth } from '../../hooks/useAuth';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react'
+import { Text, View, Image, StyleSheet } from 'react-native';
+import { Portal, Dialog, Button, TextInput } from 'react-native-paper';
+import { colors } from '../../config/theme/theme';
+import { useAuth } from '../../hooks/useAuth';
 import { RouteStack } from '../../routes/StackNavigation';
+import { RegisterUseCase } from '../../../domain/useCases/register.usecaste';
 
-export const LoginScreen = () => {
+export const RegisterScreen = () => {
 
     const navigation = useNavigation<NavigationProp<RouteStack>>();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [fullName, setFullName] = useState('');
     const [visible, setVisible] = useState(false);
     const [message, setMessage] = useState('');
-    const {login, checkStatus} = useAuth();
 
-    const _onLoginPressed = async () => {
-      await login(email, password);
-      const userStatus = await checkStatus();
-      if(userStatus !== null){
-        setMessage("Login successful");
+    const _onRegisterPressed = async () => {
+      //TODO REGISTER
+      const user = await RegisterUseCase(email,password, fullName);
+      if(user){
+         setMessage("Registro exitoso");
         showDialog();
-        navigation.navigate('Home');
+        navigation.navigate('Login');
       }
     }
 
@@ -49,6 +49,15 @@ export const LoginScreen = () => {
                 <Text style={styles.header}>Bienvenido</Text>
                 <View style={styles.inputContainer}>
                     <TextInput
+                        label="Nombre completo"
+                        value = {fullName}
+                        onChangeText={setFullName}
+                        underlineColor='transparent'
+                        mode='outlined'
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <TextInput
                         label="Correo Electrónico"
                         value = {email}
                         onChangeText={setEmail}
@@ -66,15 +75,9 @@ export const LoginScreen = () => {
                         mode='outlined'
                     />
                 </View>
-                <Button mode ="contained" onPress={_onLoginPressed}>
-                    Iniciar Sesión
+                <Button mode ="contained" onPress={_onRegisterPressed}>
+                    Registrarme
                 </Button>
-                <View style={styles.row}>
-                  <Text style={styles.label}>¿No estas registrada? </Text>
-                  <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                    <Text style={styles.link}>Registrarse</Text>
-                  </TouchableOpacity>
-                </View>
             </View>
         </View>
     </>

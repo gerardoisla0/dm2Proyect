@@ -10,6 +10,7 @@ import { StackNavigation } from "./presentation/routes/StackNavigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
 import { AuthProvider } from "./presentation/context/AuthProvider";
+import { FirebaseContext, NotificationProvider } from "./presentation/context/NotificationProvider";
 
 export const App = () => {
   return (
@@ -22,9 +23,11 @@ export const App = () => {
       <CalculatorScreen />*/}
        <PaperProvider>
         <NavigationContainer>
-          <AuthProvider>
-            <StackNavigation />
-          </AuthProvider>
+          <NotificationProvider>
+            <AuthProvider>
+              <StackNavigation />
+            </AuthProvider>
+          </NotificationProvider>
         </NavigationContainer>
        </PaperProvider>
     </SafeAreaProvider>
